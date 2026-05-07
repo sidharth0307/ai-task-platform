@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: ai_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ai-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ai_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ai-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ai_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/ai_task_platform
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=lock_in_secret_key_2026
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - ai-network
+
+  worker:
+    build:
+      context: ./worker
+    container_name: ai_worker
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/ai_task_platform
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - ai-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ai_frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
