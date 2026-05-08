@@ -10,7 +10,7 @@ export const register = async (req, res) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) return res.status(400).json({ error: 'Email already in use' });
 
-        // 2. Hash password (Assignment Requirement)
+        // 2. Hash password with bcrypt
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 

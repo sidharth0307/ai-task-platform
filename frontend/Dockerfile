@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production
-# Assignment Requirement: Using an unprivileged (non-root) Nginx image
+# Using an unprivileged (non-root) Nginx image
 FROM nginxinc/nginx-unprivileged:alpine
 # Copy the Vite build output (dist) to the Nginx html folder
 COPY --from=builder /app/dist /usr/share/nginx/html

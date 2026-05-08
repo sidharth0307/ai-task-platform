@@ -9,7 +9,7 @@ RUN pip install --user -r requirements.txt
 FROM python:3.11-slim
 WORKDIR /app
 
-# Assignment Requirement: Create and switch to non-root user
+# Create and switch to non-root user
 RUN useradd -m workeruser
 USER workeruser
 

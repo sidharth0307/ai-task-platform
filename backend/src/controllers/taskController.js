@@ -1,10 +1,10 @@
 import Task from '../models/Task.js';
-import { redisClient } from '../index.js'; // Import the shared connection
+import { redisClient } from '../index.js';
 
 export const createTask = async (req, res) => {
     try {
         const { title, inputText, operation } = req.body;
-        const userId = req.user.id; // Comes from our auth middleware
+        const userId = req.user.id; 
 
         // 1. Create task in DB
         const newTask = await Task.create({

@@ -5,14 +5,13 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 # --- CONNECTIONS ---
-# We use environment variables so this translates perfectly to Docker and Kubernetes later
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/ai_task_platform')
 
-print("🔌 Connecting to Redis...")
+print("Connecting to Redis...")
 redis_client = redis.Redis.from_url(REDIS_URL)
 
-print("🔌 Connecting to MongoDB...")
+print("Connecting to MongoDB...")
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['ai_task_platform']
 tasks_collection = db['tasks']
@@ -38,7 +37,6 @@ def listen_queue():
     while True:
         try:
             # blpop (Block Left Pop) halts the script here until a job is pushed to the queue.
-            # This is highly efficient—it uses zero CPU while waiting.
             result = redis_client.blpop('task_queue', timeout=0)
             
             if result:

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 
-// Simple protected route wrapper
+//protected route wrapper
 const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem('token');
     return token ? children : <Navigate to="/" />;

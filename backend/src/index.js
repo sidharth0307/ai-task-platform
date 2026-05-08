@@ -11,12 +11,12 @@ dotenv.config();
 const app = express();
 
 // --- SECURITY MIDDLEWARES ---
-// Helmet secures HTTP headers (Assignment Requirement)
+// Helmet secures HTTP headers 
 app.use(helmet()); 
 app.use(cors());
 app.use(express.json());
 
-// Rate Limiting: Max 100 requests per 15 minutes (Assignment Requirement)
+// Rate Limiting: Max 100 requests per 15 minutes
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
     max: 100,
